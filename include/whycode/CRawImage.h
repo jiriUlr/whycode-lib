@@ -9,9 +9,11 @@ class CRawImage {
 public:
   CRawImage() = default;
 
-  CRawImage(int width, int height, int bpp);
+  CRawImage(int height, int width, int bpp);
 
-  void updateImage(unsigned char* new_data, int width, int height, int bpp);
+  CRawImage(const unsigned char* new_data, int height, int width, int bpp);
+
+  void updateImage(const unsigned char* new_data, int height, int width, int bpp);
 
   void drawTimeStats(int eval_time, int num_markers);
 

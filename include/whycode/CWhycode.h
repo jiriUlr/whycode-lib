@@ -26,16 +26,13 @@ public:
   int num_found_ = 0;         // num of markers detected in the last step
   int num_static_ = 0;        // num of non-moving markers
 
-  // marker identification
-  int id_bits_;       // num of ID bits
-  int id_samples_;    // num of samples to identify ID
-  int hamming_dist_;  // hamming distance of ID code
+  CWhycode() = default;
+
+  CWhycode(float circle_diam, int id_b, int id_s=360, int ham_dist=1);
 
   ~CWhycode();
   
-  void init(float circle_diam, int id_b, int id_s, int ham_dist);
-
-  void setDrawing(bool draw_coords, bool draw_segments);
+  void init(float circle_diam, int id_b, int id_s=360, int ham_dist=1);
 
   void autocalibration();
 
@@ -45,7 +42,7 @@ public:
 
   void updateCameraInfo(const std::array<double, 9> &intrinsic_mat, const std::vector<double> &distortion_coeffs);
 
-  void processImage(CRawImage &image, std::vector<SMarker> &whycode_detections);
+  std::vector<SMarker> processImage(CRawImage &image);
 
   void set_parameters(Parameters &p);
 

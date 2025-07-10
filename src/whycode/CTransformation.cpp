@@ -27,7 +27,7 @@ void CTransformation::setCircleDiameter(const float circle_diam) {
 }
 
 void CTransformation::updateCameraParams(const std::array<double, 9> &intri, const std::vector<double> &dist) {
-  for (int i = 0; i < 5; ++i) { distortion_coeffs_.at<float>(i) = dist[i]; }
+  for (int i = 0; i < dist.size() && i < 5; ++i) { distortion_coeffs_.at<float>(i) = dist[i]; }
 
   for (int i = 0; i < 3; ++i) {
     for(int j = 0; j < 3; ++j) {

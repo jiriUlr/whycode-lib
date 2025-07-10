@@ -6,19 +6,21 @@ namespace whycode {
 
 struct Parameters {
   // static params
-  int id_bits;
-  int id_samples;
-  int hamming_dist;
+  int id_bits = 0;
+  int id_samples = 360;
+  int hamming_dist = 1;
   
   // dynamic params
   bool draw_coords = true;
   bool draw_segments = true;
   bool use_gui = true;
-  bool identify = true;
-  int coords_method;
+  bool identify = false;
+
+  int coords_method = 0;
   int num_markers = 1;
   int min_size = 100;
-  double circle_diameter = 0.122;
+  
+  double circle_diameter = 0.0;
   double calib_dist_x = 1.0;
   double calib_dist_y = 1.0;
   double initial_circularity_tolerance = 100.0;

@@ -17,50 +17,39 @@ endif()
 ## Find dependencies ##
 #######################
 
-find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(image_transport REQUIRED)
-find_package(whycode_interfaces REQUIRED)
-
 find_package(OpenCV REQUIRED)
 
 ###########
 ## Build ##
 ###########
 
-include_directories(include)
+add_library(whycode_lib
+  src/whycode/CWhycode.cpp
+  src/whycode/CCircleDetect.cpp
+  src/whycode/CRawImage.cpp
+  src/whycode/CTransformation.cpp
+  src/whycode/CNecklace.cpp
+)
 
-add_executable(whycode_node
-    src/whycode_ros/whycode_ros_node.cpp
-    src/whycode_ros/CWhycodeROSNode.cpp
-    src/whycode/CWhycode.cpp
-    src/whycode/CCircleDetect.cpp
-    src/whycode/CRawImage.cpp
-    src/whycode/CTransformation.cpp
-    src/whycode/CNecklace.cpp
-    )
+target_include_directories(whycode_lib PRIVATE
+  include/
+  ${OpenCV_INCLUDE_DIRS}
+)
 
-ament_target_dependencies(whycode_node rclcpp std_msgs sensor_msgs geometry_msgs image_transport whycode_interfaces OpenCV)
+target_link_libraries(whycode_lib PRIVATE
+  ${OpenCV_LIBS}
+)
+
+add_subdirectory(python)
 
 #############
 ## Install ##
 #############
 
-install(
-  DIRECTORY launch config
-  DESTINATION share/${PROJECT_NAME}
-)
 
-install(
-  TARGETS whycode_node 
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 ###########
 ## Setup ##
 ###########
 
-ament_package()
+

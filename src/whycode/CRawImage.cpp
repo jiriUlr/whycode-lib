@@ -8,20 +8,24 @@
 
 namespace whycode {
 
-CRawImage::CRawImage(int width, int height, int bpp)
-: width_(width), height_(height), bpp_(bpp), size_(width * height * bpp)
+CRawImage::CRawImage(int height, int width, int bpp)
+: height_(height), width_(width), bpp_(bpp), size_(height * width * bpp)
 {
   data_ = (unsigned char *) std::malloc(size_ * sizeof(unsigned char));
 }
 
-void CRawImage::updateImage(unsigned char* new_data, int width, int height, int bpp) {
+CRawImage::CRawImage(const unsigned char* new_data, int height, int width, int bpp) {
+  updateImage(new_data, height, width, bpp);
+}
+
+void CRawImage::updateImage(const unsigned char* new_data, int height, int width, int bpp) {
   if (width_ != width || height_ != height || bpp_ != bpp) {
-    width_ = width;
     height_ = height;
+    width_ = width;
     bpp_ = bpp;
-    size_ = width * height * bpp;
+    size_ = height * width * bpp;
     data_ = (unsigned char *) std::realloc(data_, size_ * sizeof(unsigned char));
-    std::printf("Readjusting image format to %ix%i %ibpp.\n", width_, height_, bpp_);
+    // std::printf("Readjusting image format to %ix%i %ibpp.\n", width_, height_, bpp_);
   }
   std::memcpy(data_, new_data, size_);
 }
@@ -40,7 +44,7 @@ void CRawImage::drawTimeStats(int eval_time, int num_markers) {
 
   cv::rectangle(img, cv::Point(0, text_size.height + 3), cv::Point(text_size.width, 0), cv::Scalar(0, 0, 0), cv::FILLED);
 
-  cv::putText(img, text, cv::Point(0, text_size.height + 1), font_face, font_scale, cv::Scalar(255, 0, 0), thickness, cv::LINE_AA);
+  cv::putText(img, text, cv::Point(0, text_size.height + 1), font_face, font_scale, cv::Scalar(255, 255, 255), thickness, cv::LINE_AA);
 }
 
 void CRawImage::drawStats(SMarker &marker, bool trans_2D) {
