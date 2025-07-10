@@ -1,12 +1,26 @@
 [build-system]
-requires = ["scikit-build-core[pyproject]", "pybind11", "opencv-python"]
+requires = ["scikit-build-core[pyproject]", "pybind11"]
 build-backend = "scikit_build_core.build"
 
 [project]
 name = "whycode"
 version = "0.1.0"
-description = "Whycode with Python bindings"
-authors = [{name = "Jiří Ulrich", email = "jiri.ulrich@fel.cvut.cz"}]
+description = "Fast fiducial marker detection with C++ backend and Python bindings"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{name = "Jiří Ulrich", email = "jiri.ulrich@fel.cvut.cz"}, {name = "Tomáš Krajník", email = "tomas.krajnik@fel.cvut.cz"}]
+homepage = "https://github.com/jiriUlr/whycode-lib"
+repository = "https://github.com/jiriUlr/whycode-lib"
+keywords = ["computer vision", "fiducial markers"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Programming Language :: C++",
+  "Topic :: Scientific/Engineering :: Image Recognition",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+requires-python = ">=3.8"
+dependencies = ["numpy"]
 
 [tool.scikit-build]
 minimum-version = "0.5"
