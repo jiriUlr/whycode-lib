@@ -1,13 +1,13 @@
-from . import whycode_cpp as _cpp
+from . import whycode_py as _py
 
-RawImage = _cpp.CRawImage
-Whycode = _cpp.CWhycode
-# Parameters = _cpp.Parameters
-# SMarker = _cpp.SMarker
-# SSegment = _cpp.SSegment
-# STrackedObject = _cpp.STrackedObject
-# CalibrationConfig = _cpp.CalibrationConfig
-ETransformType = _cpp.ETransformType
+RawImage = _py.CRawImage
+Whycode = _py.CWhycode
+# Parameters = _py.Parameters
+# SMarker = _py.SMarker
+# SSegment = _py.SSegment
+# STrackedObject = _py.STrackedObject
+# CalibrationConfig = _py.CalibrationConfig
+ETransformType = _py.ETransformType
 
 __all__ = [
     "RawImage",

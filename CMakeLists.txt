@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28.3)
 
-project(whycode)
+project(whycode LANGUAGES CXX)
 
 #####################
 ## Global settings ##
@@ -17,39 +17,51 @@ endif()
 ## Find dependencies ##
 #######################
 
+find_package(pybind11 REQUIRED)
 find_package(OpenCV REQUIRED)
 
 ###########
 ## Build ##
 ###########
 
-add_library(whycode_lib
+set(whycode_SRCS
   src/whycode/CWhycode.cpp
-  src/whycode/CCircleDetect.cpp
   src/whycode/CRawImage.cpp
+  src/whycode/CCircleDetect.cpp
   src/whycode/CTransformation.cpp
   src/whycode/CNecklace.cpp
 )
+
+set(whycode_PYBINDS
+  python/bind_types.cpp
+  python/bind_CWhycode.cpp
+  python/bind_CRawImage.cpp
+)
+
+add_library(whycode_lib ${whycode_SRCS})
 
 target_include_directories(whycode_lib PRIVATE
   include/
   ${OpenCV_INCLUDE_DIRS}
 )
 
-target_link_libraries(whycode_lib PRIVATE
-  ${OpenCV_LIBS}
+target_link_libraries(whycode_lib PRIVATE ${OpenCV_LIBS})
+
+pybind11_add_module(whycode_py
+  python/pybind_wrapper.cpp
+  ${whycode_PYBINDS}
+  ${whycode_SRCS}
 )
 
-add_subdirectory(python)
+target_include_directories(whycode_py PRIVATE
+  include/
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+target_link_libraries(whycode_py PRIVATE ${OpenCV_LIBS})
 
 #############
 ## Install ##
 #############
 
-
-
-###########
-## Setup ##
-###########
-
-
+install(TARGETS whycode_py LIBRARY DESTINATION whycode)

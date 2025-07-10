@@ -11,7 +11,7 @@ namespace whycode {
   void bind_CNecklace(py::module_ &);
 }  // namespace whycode
 
-PYBIND11_MODULE(whycode_cpp, m) {
+PYBIND11_MODULE(whycode_py, m) {
   m.doc() = "WhyCode Python bindings";
   whycode::bind_types(m);
   whycode::bind_CWhycode(m);

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["scikit-build-core[pyproject]", "pybind11", "opencv-python"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "whycode"
+version = "0.1.0"
+description = "Whycode with Python bindings"
+authors = [{name = "Your Name", email = "you@example.com"}]
+
+[tool.scikit-build]
+minimum-version = "0.5"
+wheel.expand-macos-universal-tags = true
+
+[tool.scikit-build.build]
+cmake.verbose = true
+cmake.minimum-version = "3.15"
+
