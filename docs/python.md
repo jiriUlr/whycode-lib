@@ -1,66 +1,89 @@
-# Building and Installing Python `whycode`
+# Building and Installing Python bindings for `whycode`
 
-This guide explains how to **build and install the `whycode` Python bindings** for the C++ library using **Conda for dependencies** and **pip for installation**.
+### Dependencies
 
-### Prerequisites
+- cmake (>= 3.20.0)
+- git
+- pybind11
+- opencv (>= 3.2.0)
 
-* A working **Conda** installation (Anaconda or Miniconda)
-* **CMake** (>= 3.15)
-* **Git**
+OpenCV library has to be installed either system-wide or within virtual environment as the C++ backend depends on it.
 
-### Step 1: Create and Activate Conda Environment
-
-```bash
-conda create -n whycode-env python=3.11
-conda activate whycode-env
-```
-
-### Step 2: Install C++ Build Dependencies (System-Level)
+### Installation
 
 ```bash
-conda install -c conda-forge libopencv pybind11 cmake ninja
+pip install git+ssh://git@github.com/jiriUlr/whycode-lib.git
 ```
 
-This installs:
-
-* OpenCV C++ libraries (`libopencv`)
-* Pybind11 headers
-* CMake and Ninja for fast builds
-
-### Step 3: Install the `whycode` Python Package from Git (SSH or HTTPS)
-
-#### Option A: Install via SSH (if you have SSH access)
+### Installation in conda virenv
 
 ```bash
-pip install git+ssh://git@github.com:yourusername/whycode-lib.git
+conda create -n whycode python pybind11 libopencv py-opencv numpy cmake compilers pkg-config make
+conda activate whycode
+pip install git+ssh://git@github.com/jiriUlr/whycode-lib.git
 ```
 
-#### Option B: Install via HTTPS (if repo is public or you have HTTPS access)
-
-```bash
-pip install git+https://github.com/yourusername/whycode-lib.git
-```
-
-This will:
-
-* Download the repository
-* Build the C++ extension using the Conda-provided OpenCV
-* Install the `whycode` Python package with the compiled shared library inside
-
-### Notes on Dependencies
-
-| Dependency     | How It's Installed                                  |
-| -------------- | --------------------------------------------------- |
-| Python `numpy` | Automatically installed as a runtime dependency     |
-| OpenCV C++     | Installed via Conda (`libopencv`) — **not** via pip |
-| Pybind11       | Installed via Conda — used only for compilation     |
-
-The final installed package does **not require `opencv-python`** unless your own Python code uses it separately.
-
-### Step 4: Test the Installation
+### Test the installation
 
 ```bash
 python -c "import whycode; print(whycode.__file__)"
 ```
 
 You should see the path to the installed package and no import errors.
+
+Below is a minimal example with OpenCV VideoCapture
+
+```python
+import cv2
+import numpy as np
+import whycode
+
+# Open default camera (index 0)
+cap = cv2.VideoCapture(0)
+# or replace with video file path
+# cap = cv2.VideoCapture('path_to_video.mp4')
+
+if not cap.isOpened():
+    raise IOError("Cannot open camera")
+
+# Create Whycode detector and set the marker diameter and number of encoded bits
+detector = whycode.Whycode(diameter=0.2, id_bits=3)
+
+# Optional: Set parameters
+params = detector.get_parameters()
+params.num_markers = 1
+detector.set_parameters(params)
+
+# Set camera calibration (dummy values). Without the correct values, the 6DOF pose estimate is incorrect.
+K = [1000, 0, 500, 0, 1000, 500, 0, 0, 1]
+D = [0.1, 0.1, -0.2, 0, 0]
+detector.updateCameraInfo(K, D)
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("Failed to grab frame")
+        break
+
+    # Wrap frame as RawImage
+    raw_img = whycode.RawImage(frame)
+
+    # Process frame
+    results = detector.processImage(raw_img)
+    print(f'ID {results[0].seg.ID} x {results[0].obj.x} y {results[0].obj.y} z {results[0].obj.z}')
+
+    # Get debug image
+    debug_image = raw_img.getImage()
+
+    # Display input and debug image
+    cv2.imshow('Camera Input', frame)
+    cv2.imshow('Whycode Debug', debug_image)
+
+    # Press 'q' to quit
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+```
