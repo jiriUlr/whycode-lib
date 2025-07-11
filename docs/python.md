@@ -12,7 +12,7 @@ OpenCV library has to be installed either system-wide or within virtual environm
 ### Installation
 
 ```bash
-pip install git+ssh://git@github.com/jiriUlr/whycode-lib.git
+pip install git+https://github.com/jiriUlr/whycode-lib.git
 ```
 
 ### Installation in conda virenv
@@ -20,7 +20,7 @@ pip install git+ssh://git@github.com/jiriUlr/whycode-lib.git
 ```bash
 conda create -n whycode python pybind11 libopencv py-opencv numpy cmake compilers pkg-config make
 conda activate whycode
-pip install git+ssh://git@github.com/jiriUlr/whycode-lib.git
+pip install git+https://github.com/jiriUlr/whycode-lib.git
 ```
 
 ### Test the installation
