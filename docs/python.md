@@ -7,19 +7,9 @@
 - pybind11
 - opencv (>= 3.2.0)
 
-OpenCV library has to be installed either system-wide or within virtual environment as the C++ backend depends on it.
-
 ### Installation
 
 ```bash
-pip install git+https://github.com/jiriUlr/whycode-lib.git
-```
-
-### Installation in conda virenv
-
-```bash
-conda create -n whycode python pybind11 libopencv py-opencv numpy cmake compilers pkg-config make
-conda activate whycode
 pip install git+https://github.com/jiriUlr/whycode-lib.git
 ```
 
