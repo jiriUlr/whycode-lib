@@ -1,6 +1,7 @@
 #ifndef WHYCODE__TYPES_H
 #define WHYCODE__TYPES_H
 
+#include <array>
 
 namespace whycode {
 
@@ -57,16 +58,6 @@ struct SSegment {
   int ID;                     // pattern ID
 };
 
-// which transform to use
-typedef enum {
-  TRANSFORM_NONE = 0,     // camera-centric
-  TRANSFORM_2D = 1,       // 3D->2D homography
-  TRANSFORM_3D = 2,       // 3D user-defined - linear combination of four translation/rotation transforms
-  TRANSFORM_4D = 3,       // 3D user-defined - full 4x3 matrix
-  TRANSFORM_INV = 4,      // for testing purposes
-  TRANSFORM_NUMBER = 5
-} ETransformType;
-
 struct STrackedObject {
   float u, v;                 // real center in the image coords
   float x, y, z, d;           // position and distance in the camera coords
@@ -85,8 +76,8 @@ struct SEllipseCenters {
 
 // rotation/translation model of the 3D transformation                                                                                                                  
 struct S3DTransform {
-  float orig[3];      // translation {x, y, z}
-  float simlar[9];    // rotation description, similarity transformation matrix
+  std::array<float, 3> orig;      // translation {x, y, z}
+  std::array<float, 9> simlar;    // rotation description, similarity transformation matrix
 };
 
 struct SMarker {
@@ -98,9 +89,19 @@ struct SMarker {
 struct CalibrationConfig {
   float grid_dim_x_;              // x unit dimention of 2D coordinate
   float grid_dim_y_;              // y unit dimention of 2D coordinate
-  float hom_[9];                  // transformation description for 2D
-  S3DTransform D3transform_[4];   // transformation description for 3D
+  std::array<float, 9> hom_;                  // transformation description for 2D
+  std::array<S3DTransform, 4> D3transform_;   // transformation description for 3D
 };
+
+// which transform to use
+typedef enum {
+  TRANSFORM_NONE = 0,     // camera-centric
+  TRANSFORM_2D = 1,       // 3D->2D homography
+  TRANSFORM_3D = 2,       // 3D user-defined - linear combination of four translation/rotation transforms
+  TRANSFORM_4D = 3,       // 3D user-defined - full 4x3 matrix
+  TRANSFORM_INV = 4,      // for testing purposes
+  TRANSFORM_NUMBER = 5
+} ETransformType;
 
 }  // namespace whycode
 

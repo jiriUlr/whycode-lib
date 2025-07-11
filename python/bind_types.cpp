@@ -79,7 +79,7 @@ void bind_types(py::module_ &m) {
     .def_readwrite("qz", &STrackedObject::qz)
     .def_readwrite("qw", &STrackedObject::qw);
 
-  // TODO: redo the fixed-size arrays and std::array
+  // TODO: eliminate the fixed-size arrays
   // py::class_<SEllipseCenters>(m, "SEllipseCenters")
   //   .def(py::init<>())
   //   .def_readwrite("u", &SEllipseCenters::u)
@@ -87,10 +87,10 @@ void bind_types(py::module_ &m) {
   //   .def_readwrite("n", &SEllipseCenters::n)
   //   .def_readwrite("t", &SEllipseCenters::t);
 
-  // py::class_<S3DTransform>(m, "S3DTransform")
-  //   .def(py::init<>())
-  //   .def_readwrite("orig", &S3DTransform::orig)
-  //   .def_readwrite("simlar", &S3DTransform::simlar);
+  py::class_<S3DTransform>(m, "S3DTransform")
+    .def(py::init<>())
+    .def_readwrite("orig", &S3DTransform::orig)
+    .def_readwrite("simlar", &S3DTransform::simlar);
 
   py::class_<SMarker>(m, "SMarker")
     .def(py::init<>())
@@ -98,12 +98,12 @@ void bind_types(py::module_ &m) {
     .def_readwrite("seg", &SMarker::seg)
     .def_readwrite("obj", &SMarker::obj);
 
-  // py::class_<CalibrationConfig>(m, "CalibrationConfig")
-  //   .def(py::init<>())
-  //   .def_readwrite("grid_dim_x_", &CalibrationConfig::grid_dim_x_)
-  //   .def_readwrite("grid_dim_y_", &CalibrationConfig::grid_dim_y_)
-  //   .def_readwrite("hom_", &CalibrationConfig::hom_)
-  //   .def_readwrite("D3transform_", &CalibrationConfig::D3transform_);
+  py::class_<CalibrationConfig>(m, "CalibrationConfig")
+    .def(py::init<>())
+    .def_readwrite("grid_dim_x_", &CalibrationConfig::grid_dim_x_)
+    .def_readwrite("grid_dim_y_", &CalibrationConfig::grid_dim_y_)
+    .def_readwrite("hom_", &CalibrationConfig::hom_)
+    .def_readwrite("D3transform_", &CalibrationConfig::D3transform_);
 
   py::enum_<ETransformType>(m, "ETransformType")
     .value("TRANSFORM_NONE", TRANSFORM_NONE)

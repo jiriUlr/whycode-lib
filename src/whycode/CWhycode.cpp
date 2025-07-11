@@ -401,13 +401,13 @@ void CWhycode::saveCalibration(const std::string &str) {
   fs << "dim_x" << config.grid_dim_x_;
   fs << "dim_y" << config.grid_dim_y_;
   fs.writeComment("2D calibration");
-  fs << "hom" << cv::Mat(3, 3, CV_32FC1, config.hom_);
+  fs << "hom" << cv::Mat(3, 3, CV_32FC1, config.hom_.data());
   fs.writeComment("3D calibration");
 
   for (int k = 0; k < 4; ++k) {
     fs.writeComment("D3transform " + std::to_string(k));
-    fs << "offset_" + std::to_string(k) << cv::Mat(3, 1, CV_32FC1, config.D3transform_[k].orig);
-    fs << "simlar_" + std::to_string(k) << cv::Mat(3, 3, CV_32FC1, config.D3transform_[k].simlar);
+    fs << "offset_" + std::to_string(k) << cv::Mat(3, 1, CV_32FC1, config.D3transform_[k].orig.data());
+    fs << "simlar_" + std::to_string(k) << cv::Mat(3, 3, CV_32FC1, config.D3transform_[k].simlar.data());
   }
 
   fs.release();
