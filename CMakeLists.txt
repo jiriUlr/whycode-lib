@@ -52,5 +52,5 @@ if(BUILD_PYTHON)
 
   target_link_libraries(whycode_py PRIVATE ${OpenCV_LIBS})
 
-  install(TARGETS whycode_py LIBRARY DESTINATION whycode)
+  install(TARGETS whycode_py LIBRARY DESTINATION python/whycode)
 endif()
