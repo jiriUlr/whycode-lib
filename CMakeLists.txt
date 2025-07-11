@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.20.0)
 
 project(whycode LANGUAGES CXX)
 
-option(BUILD_PYTHON "Build Python bindings (requires pybind11)" OFF)
+option(BUILD_PYTHON "Build Python bindings (requires pybind11)" ON)
 
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 20)
