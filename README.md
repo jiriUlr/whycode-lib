@@ -34,7 +34,7 @@ Current main contributor and maintainer is [Jiří Ulrich](https://scholar.googl
 
 #### License
 
-The code is avaiable only for academic and educational purposes, see the LICENSE file for details. In any other case or when You are not sure about licensing, please, contact us!
+The code is avaiable only for non-commercial research and educational purposes only, see the LICENSE file for details. In any other case or when You are not sure about licensing, please, contact us!
 
 If you use this localization system for your research, please don't forget to cite at least one relevant paper below.
 
