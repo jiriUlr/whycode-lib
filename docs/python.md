@@ -2,7 +2,7 @@
 
 ### Dependencies
 
-- cmake (>= 3.20.0)
+- cmake (>= 3.28.3)
 - git
 - pybind11
 - opencv (>= 3.2.0)
